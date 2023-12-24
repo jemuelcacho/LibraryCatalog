@@ -171,12 +171,25 @@ public class LibraryCatalog {
 	}
 	
 	public void removeBook(int id) {
-		Books.remove(id-1);
-		return;
+		for(int i=0; i < Books.size(); i++){
+			if(Books.get(i).getId() == id)
+			Books.remove(i);
+		}
 	}	
 	
 	public boolean checkOutBook(int id) {
-		return Books.get(id).isCheckedOut();
+		
+		for(int i=0; i < Books.size(); i++){
+			if(Books.get(i).getId() == id)
+				if(!Books.get(i).isCheckedOut()){
+				Books.get(i).setCheckedOut(true);
+				Books.get(i).setLastCheckOut(LocalDate.parse("2023-09-15"));
+				}
+				return true;
+		}
+		
+		return false;
+		
 	}
 	public boolean returnBook(int id) {
 		if(id >= this.getBookCatalog().size()) return false;
@@ -193,7 +206,12 @@ public class LibraryCatalog {
 	
 	public boolean getBookAvailability(int id) {
 		//use the same librarycatalog
-		return !Books.get(id -1).isCheckedOut();
+		for(int i=0; i < Books.size(); i++){
+			if(Books.get(i).getId()== id){
+				return !Books.get(i).isCheckedOut();
+			}
+		}
+		return false;
 	}
 	
 	public int bookCount(String title) {
